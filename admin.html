@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HR后台 · 招聘系统（精简开源版）</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="sidebar">
+      <div class="brand">招聘<span class="accent">直通车</span> 后台</div>
+      <div class="side-link active" data-view="dashboard">仪表盘</div>
+      <div class="side-link" data-view="jobs">职位管理</div>
+      <div class="side-link" data-view="applications">应聘管理</div>
+      <div class="side-link" id="btnResetData" style="margin-top:20px;color:var(--red)">重置示例数据</div>
+      <a href="index.html" class="side-link">← 返回前台</a>
+    </aside>
+
+    <main class="admin-main">
+      <section id="view-dashboard" class="admin-view active">
+        <div class="page-head"><h1>仪表盘</h1><p>职位与应聘概览。</p></div>
+        <div class="stat-grid" id="statGrid"></div>
+        <table>
+          <thead><tr><th>最新应聘</th><th>应聘职位</th><th>应聘日期</th><th>状态</th></tr></thead>
+          <tbody id="recentAppsBody"></tbody>
+        </table>
+      </section>
+
+      <section id="view-jobs" class="admin-view">
+        <div class="page-head"><h1>职位管理</h1><p>添加、编辑、上线或下架职位。</p></div>
+        <div class="table-toolbar">
+          <span></span>
+          <button class="btn btn-primary btn-sm" id="btnAddJob">+ 新增职位</button>
+        </div>
+        <table>
+          <thead><tr><th>职位名称</th><th>部门</th><th>城市</th><th>薪资范围</th><th>类型</th><th>状态</th><th>操作</th></tr></thead>
+          <tbody id="jobsBody"></tbody>
+        </table>
+      </section>
+
+      <section id="view-applications" class="admin-view">
+        <div class="page-head"><h1>应聘管理</h1><p>按职位或状态筛选，推进应聘流程。</p></div>
+        <div class="table-toolbar">
+          <select id="jobFilter" class="job-filter-select">
+            <option value="all">全部职位</option>
+          </select>
+          <div class="filter-row" id="appFilters">
+            <button class="filter-btn active" data-status="all">全部</button>
+            <button class="filter-btn" data-status="待筛选">待筛选</button>
+            <button class="filter-btn" data-status="面试中">面试中</button>
+            <button class="filter-btn" data-status="已录用">已录用</button>
+            <button class="filter-btn" data-status="已拒绝">已拒绝</button>
+          </div>
+        </div>
+        <table>
+          <thead><tr><th>候选人</th><th>应聘职位</th><th>电话</th><th>应聘日期</th><th>状态</th><th>操作</th></tr></thead>
+          <tbody id="appsBody"></tbody>
+        </table>
+      </section>
+    </main>
+  </div>
+
+  <div class="modal-backdrop" id="jobModalBackdrop">
+    <div class="modal">
+      <button class="modal-close" id="btnCloseJobModal">&times;</button>
+      <h2 id="jobModalTitle">新增职位</h2>
+      <div id="jobModalMsg"></div>
+      <form id="jobForm" novalidate>
+        <input type="hidden" id="jobIdInput">
+        <div class="field"><label>职位名称</label><input id="jobTitleInput" type="text" required></div>
+        <div class="field-row">
+          <div class="field"><label>部门</label><input id="jobDeptInput" type="text" required></div>
+          <div class="field"><label>城市</label><input id="jobCityInput" type="text" required></div>
+        </div>
+        <div class="field-row">
+          <div class="field"><label>薪资下限（元/月）</label><input id="jobSalaryMinInput" type="number" min="0" required></div>
+          <div class="field"><label>薪资上限（元/月）</label><input id="jobSalaryMaxInput" type="number" min="0" required></div>
+        </div>
+        <div class="field">
+          <label>用工类型</label>
+          <select id="jobTypeInput">
+            <option value="全职">全职</option>
+            <option value="兼职">兼职</option>
+            <option value="实习">实习</option>
+          </select>
+        </div>
+        <div class="field"><label>职位要求</label><textarea id="jobReqInput" rows="3" required></textarea></div>
+        <button type="submit" class="btn btn-primary btn-block">保存</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal-backdrop" id="appModalBackdrop">
+    <div class="modal">
+      <button class="modal-close" id="btnCloseAppModal">&times;</button>
+      <h2 id="appModalTitle">应聘详情</h2>
+      <p class="sub" id="appModalMeta"></p>
+      <div class="booked-ranges" id="appModalResume"></div>
+    </div>
+  </div>
+
+  <script src="data.js"></script>
+  <script src="admin.js"></script>
+</body>
+</html>
